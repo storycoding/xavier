@@ -1,7 +1,7 @@
 import React from 'react';
 
 const ChatBubble = (props) => (
-	<div>hello</div>
+	<div className="chatBubble">hello</div>
 );
 
 export default ChatBubble;

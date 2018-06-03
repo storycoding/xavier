@@ -1,6 +1,6 @@
 import React from 'react';
 
 // make a landing animation while the client is connection
-const Landing = () => <div>Xavier</div>
+const Loading = () => <div className="loading">(Loading)</div>
 
-export default Landing;
+export default Loading;

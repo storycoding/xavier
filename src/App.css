@@ -1,28 +1,42 @@
 .App {
-  text-align: center;
 }
 
-.App-logo {
-  animation: App-logo-spin infinite 20s linear;
-  height: 80px;
+.chat {
+
 }
 
-.App-header {
-  background-color: #222;
-  height: 150px;
-  padding: 20px;
-  color: white;
+.chatBubble {
+
 }
 
-.App-title {
-  font-size: 1.5em;
+.chatInputBox {
+
 }
 
-.App-intro {
-  font-size: large;
+.contacts {
+
 }
 
-@keyframes App-logo-spin {
-  from { transform: rotate(0deg); }
-  to { transform: rotate(360deg); }
+.contact {
+
+}
+
+.history {
+
+}
+
+.login {
+
+}
+
+.loading {
+
+}
+
+.writingContainer {
+
+}
+
+.writing {
+
 }

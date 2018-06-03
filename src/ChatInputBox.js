@@ -14,7 +14,7 @@ class ChatInputBox extends Component {
 	//handleSubmit
 	
 	render() {
-		return <div>chatbox</div>
+		return <div className="chatInputBox">chatInputBox</div>
 	}
 
 }

@@ -3,7 +3,7 @@ import logo from './logo.svg';
 import './App.css';
 
 import Login from './Login.js';
-import Landing from './Landing.js';
+import Loading from './Loading.js';
 import Contacts from './Contacts.js';
 import Chat from './Chat.js';
 
@@ -12,7 +12,7 @@ class App extends Component {
     return (
       <div className="App">
         <Login/>
-        <Landing/>
+        <Loading/>
         <Contacts/>
         <Chat/>
       </div>

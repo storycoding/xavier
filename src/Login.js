@@ -11,7 +11,8 @@ class Login extends Component {
 	
 	render() {
 		return (
-			<div>
+			<div className="login">
+				(Login)
 				<div>username</div>
 				<div>password</div>
 				<div>login</div>
