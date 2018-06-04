@@ -14,11 +14,12 @@ const Chat = (props) => {
 	// chat history
 
 	// chat input box
+	const goToPage = () => { props.goToPage("Contacts") }
 
 	return (
 		<div className="page chat">
 			<div className="chatContact">
-				<span className="arrow">←</span>
+				<div className="arrow" onClick={goToPage}>←</div>
 				contact name
 			</div>
 			<div className="flexEnd">
