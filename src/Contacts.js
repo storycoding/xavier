@@ -8,7 +8,7 @@ const Contacts = (props) => {
 	return (
 		<div className="page contacts">
 			<Contact goToPage={props.goToPage}/>
-			<div className="bubble">add</div>
+			<div className="bubble" onClick={goToPage}>add</div>
 		</div>
 	)
 }
