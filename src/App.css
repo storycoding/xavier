@@ -30,13 +30,19 @@
 }
 
 .chatContact {
-  height:5%;
   width: 96%;
   padding: 2%;
   display: flex;
   flex-direction: row;
   background-color: blue;
   color: white;
+}
+
+.flexEnd {
+  height: 90%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
 }
 
 .history {
@@ -58,8 +64,6 @@
 }
 
 .chatBox {
-  position: absolute;
-  bottom: 0px;
   width: 100%;
 }
 
@@ -88,22 +92,20 @@
 }
 
 .writingContainer {
-
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: white;
+  margin-bottom: 10px;
 }
 
 .writing {
-
+  align-self: flex-end;
+  background-color: orange;
 }
 
 .addContact {
 
-}
-
-.flexEnd {
-  max-height: 80%;
-  display: flex;
-  flex-direction: column;
-  justify-content: flex-end;
 }
 
 .scroll {
@@ -113,4 +115,14 @@
 input, button {
   font-size: 1em;
   border-style: none;
+}
+
+.self {
+  align-self: flex-start;
+  background-color: blue;
+}
+
+.other {
+  align-self: flex-end;
+  background-color: orange;
 }
