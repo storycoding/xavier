@@ -11,12 +11,25 @@ import AddContact from './AddContact.js';
 class App extends Component {
   constructor() {
     super();
+
     this.state = {
-      page: "Login"
-      // save conversations here
-      // do I really want to load all the conversations at once?
-      // conversations get wiped logout
+      page: "Login",
+      username: "self",
+      contacts: ["other"]
     }
+  }
+
+  componentDidMount() {
+    console.log("call socketAPI here for contacts list");
+    // make API call  with this.state.username as a param
+      // should return an array
+      // setState({ contacts: array})
+  }
+
+  updateContactHistory = (contact, history) => {
+    let contacts = Object.assign(this.state.contacts);
+    contacts[contact] = history;
+    this.setState( {contacts: contacts} );
   }
 
   goToPage = (page) => {
@@ -24,21 +37,30 @@ class App extends Component {
   }
 
   renderPage = (page) => {
-  switch(page) {
-    case 'Login':
-      return <Login goToPage={this.goToPage.bind(this)}/>;
-    case 'Loading':
-      return <Loading goToPage={this.goToPage.bind(this)}/>;
-    case 'Contacts':
-      return <Contacts goToPage={this.goToPage.bind(this)}/>;
-    case 'Chat':
-      return <Chat goToPage={this.goToPage.bind(this)}/>;
-    case 'AddContact':
-      return <AddContact goToPage={this.goToPage.bind(this)}/>;
-    default:
-      return <Loading goToPage={this.goToPage.bind(this)}/>;
+    switch(page) {
+      case 'Login':
+        return <Login goToPage={this.goToPage.bind(this)}/>;
+
+      case 'Loading':
+        return <Loading goToPage={this.goToPage.bind(this)}/>;
+
+      case 'Contacts':
+        return (
+          <Contacts
+            contacts={this.state.contacts}
+            goToPage={this.goToPage.bind(this)}
+          />
+        )
+
+      case 'Chat':
+        return <Chat updateContactHistory={this.updateContactHistory.bind(this)} goToPage={this.goToPage.bind(this)}/>;
+
+      case 'AddContact':
+        return <AddContact goToPage={this.goToPage.bind(this)}/>;
+      default:
+        return <Loading goToPage={this.goToPage.bind(this)}/>;
+    }
   }
-}
   render() {
 
     return (
