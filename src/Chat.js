@@ -1,37 +1,47 @@
-import React from 'react';
+import React, { Component } from 'react';
 
 import ChatBox from './ChatBox.js';
 import History from './History.js';
 import WritingContainer from './WritingContainer.js';
 
-const Chat = (props) => {
+class Chat extends Component {
+	constructor(props) {
+		super(props);
+
+		this.state = {
+			username: "me",
+			history: []
+		}
+	}
 	// consider holding state in the parent app component
-
 	// displays contact name
-
 	// return button
-
 	// chat history
 
+	updateContactHistory = (contact, history) => {
+		this.props.updateContactHistory(contact, history);
+	}
 	// chat input box
-	const goToPage = () => { props.goToPage("Contacts") }
+	goToPage = () => { this.props.goToPage("Contacts") }
 
-	return (
-		<div className="page chat">
-			<div className="chatContact">
-				<div className="arrow" onClick={goToPage}>←</div>
-				contact name
-			</div>
-			<div className="flexEnd">
-				<div className="scroll">
-					<History/>
-					<WritingContainer/>
+	render() {
+		return (
+			<div className="page chat">
+				<div className="chatContact">
+					<div className="arrow" onClick={this.goToPage}>←</div>
+					contact name
 				</div>
-				<ChatBox/>
+				<div className="flexEnd">
+					<div className="scroll">
+						<History/>
+						<WritingContainer/>
+					</div>
+					<ChatBox/>
+				</div>
+				
 			</div>
-			
-		</div>
-	)
+		)
+	}
 }
 
 export default Chat;
