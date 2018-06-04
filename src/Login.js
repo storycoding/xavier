@@ -5,17 +5,16 @@ class Login extends Component {
 		super();
 		// controlled component
 		// holds state for API calls to the socket
-			// username
+			// email
 			// password
 	}
 	
 	render() {
 		return (
-			<div className="login">
-				(Login)
-				<div>username</div>
-				<div>password</div>
-				<div>login</div>
+			<div className="page login">
+				<input type="text" placeholder="email" className="bubble"></input>
+				<input type="text" placeholder="password" className="bubble"></input>
+				<div className="bubble">login</div>
 			</div>
 			);
 	}

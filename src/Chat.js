@@ -1,6 +1,6 @@
 import React from 'react';
 
-import ChatInputBox from './ChatInputBox.js';
+import ChatBox from './ChatBox.js';
 import History from './History.js';
 import WritingContainer from './WritingContainer.js';
 
@@ -16,12 +16,19 @@ const Chat = (props) => {
 	// chat input box
 
 	return (
-		<div className="chat">
-			(Chat)
-			<div>contact name</div>
-			<History/>
-			<WritingContainer/>
-			<ChatInputBox/>
+		<div className="page chat">
+			<div className="chatContact">
+				<span className="arrow">←</span>
+				contact name
+			</div>
+			<div className="flexEnd">
+				<div className="scroll">
+					<History/>
+					<WritingContainer/>
+				</div>
+				<ChatBox/>
+			</div>
+			
 		</div>
 	)
 }

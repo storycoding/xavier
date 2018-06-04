@@ -7,6 +7,11 @@ const History = (props) => (
 		<ChatBubble/>
 		<ChatBubble/>
 		<ChatBubble/>
+		<ChatBubble/>
+		<ChatBubble/>
+		<ChatBubble/>
+		<ChatBubble/>
+		<ChatBubble/>
 	</div>
 );
 

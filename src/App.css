@@ -1,16 +1,69 @@
 .App {
+  width: 100%;
+  height: 100%;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.page {
+  min-width: 49vw;
+  min-height: 49vh;
+  border-style: solid;
+  border-width: 1px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
 }
 
 .chat {
-
+  position: relative;
+  display: inline-block;
 }
 
-.chatBubble {
-
+.arrow {
+  color: white;
+  margin-right: 10px;
 }
 
-.chatInputBox {
+.chatContact {
+  background-color: blue;
+  height:5%;
+  width: 96%;
+  padding: 2%;
+  color: white;
+}
 
+.history {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end;
+  background-color: white;
+}
+
+.bubble {
+  margin: 10px 20px 0px 20px;
+  padding: 10px 15px 10px 15px;
+  width: -webkit-fit-content;
+  border-radius: 25px;
+  color: white;
+  word-wrap: break-word;
+  word-break: break-all;
+  background-color: orange;
+}
+
+.chatBox {
+  position: absolute;
+  bottom: 0px;
+  width: 100%;
+}
+
+.textarea {
+  width: 96%;
+  padding: 2%;
+  border-width: 1px 0px 0px 0px;
+  border-style: solid;
+  border-color: gray;
 }
 
 .contacts {
@@ -21,16 +74,12 @@
 
 }
 
-.history {
-
-}
-
 .login {
 
 }
 
 .loading {
-
+  font-size: 3em;
 }
 
 .writingContainer {
@@ -39,4 +88,24 @@
 
 .writing {
 
+}
+
+.addContact {
+
+}
+
+.flexEnd {
+  max-height: 80%;
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-end;
+}
+
+.scroll {
+  overflow-y: scroll;
+}
+
+input, button {
+  font-size: 1em;
+  border-style: none;
 }
