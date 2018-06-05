@@ -1,7 +1,6 @@
 import React, { Component } from 'react';
 
 import ChatBox from './ChatBox.js';
-import ChatBubble from './ChatBubble.js';
 import WritingContainer from './WritingContainer.js';
 
 class Chat extends Component {
@@ -13,15 +12,15 @@ class Chat extends Component {
 			contactName: "other",
 			history: [
           { 
-            author: "other",
+            publisher: "other",
             content: "How are you?"
           },
           {
-            author: "self",
+            publisher: "self",
             content: "All good in the hood. You?"
           },
           {
-            author: "other",
+            publisher: "other",
             content: "Peachy!"
           }
         ]
@@ -48,7 +47,7 @@ class Chat extends Component {
 
 		const history = this.state.history.map( (message) => {
 
-			if(message.author === this.state.userName) {
+			if(message.publisher === this.state.userName) {
 				return <div className="other bubble">{message.content}</div>
 			}
 
