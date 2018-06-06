@@ -17,6 +17,8 @@ io.on('connection', (client) => {
 		connections ++;
 		addedUser = true;
 
+		console.log(`${client.username} connected to the chat`);
+
 		client.emit('login response', `you are now connected to the socket as ${client.username}.`);
 	});
 
@@ -28,7 +30,10 @@ io.on('connection', (client) => {
 
 	// setup getWriting
 
-	// setup disconnect
+	client.on('disconnect', () => {
+		console.log(`${client.username} disconnected from the chat`);
+    if (addedUser) { connections -- }
+  });
 
 };
 
