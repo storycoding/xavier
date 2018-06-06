@@ -5,21 +5,35 @@ const port = process.env.port || 8000;
 
 let connections = 0;
 
-// setup server cache
+let fakeAuth = {
+	Rob : "password",
+	Laura : "password",
+	Distracted : "password",
+	Forgetful : "password"
+};
 
 io.on('connection', (client) => {
 	let addedUser = false;
 
-	client.on('login', (username) => {
+	client.on('login', (credentials) => {
 		if (addedUser) return;
+		console.log(`${credentials.username} is trying to connect to the chat`);
 
-		client.username = username;
+		const { username, password} = credentials;
+
+		// replace fakeAuth with call to database
+		if( fakeAuth[username] !== password ) {
+			client.emit('login response', 'wrong password');
+			return;
+		}
+
+		client.username = credentials.username;
 		connections ++;
 		addedUser = true;
 
 		console.log(`${client.username} connected to the chat`);
 
-		client.emit('login response', `you are now connected to the socket as ${client.username}.`);
+		client.emit('login response', 'success');
 	});
 
 	// setup getHistory
@@ -35,7 +49,7 @@ io.on('connection', (client) => {
     if (addedUser) { connections -- }
   });
 
-};
+});
 
 
 
