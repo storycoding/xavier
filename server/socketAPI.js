@@ -11,6 +11,14 @@ const socketAPI = {
 			if (response === "success") { done() }
 			else { done(new Error(response)) }
 		});
+	},
+
+	send: function(message, cb) {
+		socket.emit('send', message);
+
+		socket.on('broadcast', (response) => {
+			cb(response);
+		});
 	}
 
 	// setup getHistory

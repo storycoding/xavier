@@ -9,7 +9,7 @@ let fakeAuth = {
 	Rob : "password",
 	Laura : "password",
 	Distracted : "password",
-	Forgetful : "password"
+	Forgetful : "password",
 };
 
 io.on('connection', (client) => {
@@ -56,6 +56,13 @@ io.on('connection', (client) => {
 	// setup getHistory
 
 	// setup sendMessage
+	client.on('send', (message) => {
+		console.log(message.content);
+		io.emit('broadcast', {
+			publisher: message.publisher,
+			content: message.content
+		});
+	})
 
 	// setup sendWriting
 
@@ -67,6 +74,7 @@ io.on('connection', (client) => {
   });
 
 });
+
 
 
 
