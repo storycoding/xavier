@@ -3,7 +3,10 @@ const socket = openSocket('http://localhost:8000');
 
 const socketAPI = {
 	
-	// setup connect
+	connect: function(username) {
+		socket.emit('login', JSON.stringify(username));
+		socket.on('login response', (response) => console.log(response));
+	}
 
 	// setup getHistory
 
