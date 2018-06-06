@@ -16,25 +16,42 @@ io.on('connection', (client) => {
 	let addedUser = false;
 
 	client.on('login', (credentials) => {
-		if (addedUser) return;
-		console.log(`${credentials.username} is trying to connect to the chat`);
+		const { username, password } = credentials;
 
-		const { username, password} = credentials;
+		console.log(`${username} is trying to connect to the chat with password: ${password}`);
 
-		// replace fakeAuth with call to database
-		if( fakeAuth[username] !== password ) {
-			client.emit('login response', 'wrong password');
+		if (addedUser) {
+			client.emit('login response', 'already connected');
+			console.log(`${username} failed to connect`);
 			return;
 		}
 
-		client.username = credentials.username;
-		connections ++;
-		addedUser = true;
+		else if (!password || password.length < 1) {
+			client.emit('login response', 'no password');
+			console.log(`${username} failed to connect`);
+			return;
+		}
 
-		console.log(`${client.username} connected to the chat`);
+		// replace fakeAuth with call to database
+		else if( fakeAuth[username] !== password ) {
+			client.emit('login response', 'wrong password');
+			console.log(`${username} failed to connect`);
+			return;
+		}
 
-		client.emit('login response', 'success');
+		else {
+			client.username = username;
+			connections ++;
+			addedUser = true;
+			console.log(`${client.username} connected to the chat`);
+			client.emit('login response', 'success');
+			return;
+		}
+
+		
 	});
+
+	// setup rooms
 
 	// setup getHistory
 
