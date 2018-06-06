@@ -3,9 +3,13 @@ const socket = openSocket('http://localhost:8000');
 
 const socketAPI = {
 	
-	connect: function(username) {
-		socket.emit('login', JSON.stringify(username));
-		socket.on('login response', (response) => console.log(response));
+	connect: function(credentials, done) {
+		socket.emit('login', credentials);
+
+		socket.on('login response', (response) => {
+			if (response === "success") { done() }
+			else { done(response) }
+		});
 	}
 
 	// setup getHistory
