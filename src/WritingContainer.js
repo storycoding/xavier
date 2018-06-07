@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { socketAPI } from './server/socketAPI.js';
+import { socketAPI } from './socketAPI.js';
 import Writing from './Writing';
 
 class WritingContainer extends Component {
