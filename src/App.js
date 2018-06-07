@@ -13,23 +13,33 @@ class App extends Component {
     super();
 
     this.state = {
+      email: "email",
+      name: "username",
       page: "Login",
-      username: "self",
       contacts: ["other"]
     }
   }
 
   componentDidMount() {
-    console.log("call socketAPI here for contacts list");
-    // make API call  with this.state.username as a param
-      // should return an array
-      // setState({ contacts: array})
+      // check for auth cookie
+        // if cookie is valid
+          // request username from server
+          // request contacts from server
+          // load Contacts page
+
+        // else
+          // load Login page
   }
 
   updateContactHistory = (contact, history) => {
     let contacts = Object.assign(this.state.contacts);
     contacts[contact] = history;
     this.setState( {contacts: contacts} );
+  }
+
+  setCredentials = (email) => {
+    console.log("email: ", email);
+    this.setState( { email : email } );
   }
 
   goToPage = (page) => {
@@ -39,7 +49,12 @@ class App extends Component {
   renderPage = (page) => {
     switch(page) {
       case 'Login':
-        return <Login goToPage={this.goToPage.bind(this)}/>;
+        return (
+          <Login
+            goToPage={this.goToPage.bind(this)}
+            setCredentials={this.setCredentials.bind(this)}
+          />
+        )
 
       case 'Loading':
         return <Loading goToPage={this.goToPage.bind(this)}/>;
@@ -62,6 +77,7 @@ class App extends Component {
     }
   }
   render() {
+
 
     return (
       <div className="App">
