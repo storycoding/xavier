@@ -6,9 +6,10 @@ const Contacts = (props) => {
 
 	const goToChat = () => props.goToPage("Chat");
 
-	const contacts = props.contacts.map( (contact) => {
+	const contacts = props.contacts.map( (contact, index) => {
 		return (
 			<div
+				key={index}
 				className="bubble contact"
 				onClick={goToChat}>
 				{contact}
