@@ -4,7 +4,8 @@ const Contacts = (props) => {
 
 	const goToAddContact = () => { props.goToPage("AddContact") }
 
-	const goToChat = () => { props.goToPage("Chat") }
+	const goToChat = () => props.goToPage("Chat");
+
 	const contacts = props.contacts.map( (contact) => {
 		return (
 			<div
