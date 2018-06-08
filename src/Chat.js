@@ -7,24 +7,7 @@ class Chat extends Component {
 	constructor(props) {
 		super(props);
 
-		this.state = {
-			userName: "self",
-			contactName: "other",
-			history: [
-          { 
-            publisher: "other",
-            content: "How are you?"
-          },
-          {
-            publisher: "self",
-            content: "All good in the hood. You?"
-          },
-          {
-            publisher: "other",
-            content: "Peachy!"
-          }
-        ]
-		}
+		this.state = props.chat;
 	}
 
 	updateContactHistory = (contact, history) => {
@@ -49,13 +32,25 @@ class Chat extends Component {
 
 	render() {
 
-		const history = this.state.history.map( (message) => {
+		const history = this.state.history.map( (message, index) => {
 
-			if(message.publisher === this.state.userName) {
-				return <div className="other bubble">{message.content}</div>
+			if(message.publisher === this.state.name) {
+				return (
+					<div
+						key={index}
+						className="other bubble">
+						{message.content}
+					</div>
+				)
 			}
 
-			return <div className="self bubble">{message.content}</div>
+			return (
+				<div 
+					key={index}
+					className="self bubble">
+					{message.content}
+				</div>
+			)
 
 		});
 

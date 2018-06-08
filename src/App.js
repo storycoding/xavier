@@ -14,9 +14,27 @@ class App extends Component {
 
     this.state = {
       email: "email",
-      name: "username",
+      name: "self",
       page: "Login",
-      contacts: ["other"]
+      contacts: ["Other"],
+      chat: {
+        name: "Self",
+        contactName: "Other",
+        history: [
+          { 
+            publisher: "Other",
+            content: "How are you?"
+          },
+          {
+            publisher: "Self",
+            content: "All good in the hood. You?"
+          },
+          {
+            publisher: "Other",
+            content: "Peachy!"
+          }
+        ]
+      }
     }
   }
 
@@ -73,7 +91,10 @@ class App extends Component {
         )
 
       case 'Chat':
-        return <Chat updateContactHistory={this.updateContactHistory.bind(this)} goToPage={this.goToPage.bind(this)}/>;
+        return <Chat 
+          updateContactHistory={this.updateContactHistory.bind(this)}
+          chat={this.state.chat}
+          goToPage={this.goToPage.bind(this)}/>;
 
       case 'AddContact':
         return <AddContact goToPage={this.goToPage.bind(this)}/>;
