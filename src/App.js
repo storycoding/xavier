@@ -21,6 +21,7 @@ class App extends Component {
   }
 
   componentDidMount() {
+      console.log("componentDidMount state: ", this.state);
       // check for auth cookie
         // if cookie is valid
           // request username from server
@@ -31,15 +32,19 @@ class App extends Component {
           // load Login page
   }
 
+  componentDidUpdate() {
+      console.log("componentDidUpdate state: ", this.state);
+  }
+
   updateContactHistory = (contact, history) => {
     let contacts = Object.assign(this.state.contacts);
     contacts[contact] = history;
     this.setState( {contacts: contacts} );
   }
 
-  setCredentials = (email) => {
-    console.log("email: ", email);
-    this.setState( { email : email } );
+  setCredentials = (credentials) => {
+    console.log("App setCredentials: ", credentials);
+    this.setState( credentials );
   }
 
   goToPage = (page) => {
