@@ -8,7 +8,10 @@ const socketAPI = {
 		socket.emit('login', credentials);
 
 		socket.on('login response', (response) => {
-			if (response === "success") { done() }
+			if (response === "success") {
+				console.log("login response from server: ", response)
+				done();
+			}
 			else { done(new Error(response)) }
 		});
 	},
@@ -18,6 +21,14 @@ const socketAPI = {
 
 		socket.on('broadcast', (response) => {
 			cb(response);
+		});
+	},
+
+	getUserInfo: function(credentials, done) {
+		socket.emit('getUserInfo', credentials);
+
+		socket.on('sendUserInfo', (response) => {
+			done(response);
 		});
 	}
 
