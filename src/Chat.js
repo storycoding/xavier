@@ -36,6 +36,10 @@ class Chat extends Component {
 
 	componentDidMount() {
 		console.log("call socketAPI here for chat history");
+
+		// send new room request
+		// await other contact
+
 		// setState of App via props.updateContactHistory(contact, history)
 
 		// choose
