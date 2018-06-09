@@ -91,7 +91,7 @@ io.on('connection', (client) => {
 	// setup getHistory
 
 	// setup sendMessage
-	client.on('send', (message) => {
+	client.on('publish', (message) => {
 		console.log(message.content);
 		io.emit('broadcast', {
 			publisher: message.publisher,
