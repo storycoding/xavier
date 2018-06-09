@@ -16,11 +16,11 @@ const socketAPI = {
 		});
 	},
 
-	publish: function(message, cb) {
+	publish: function(message, done) {
 		socket.emit('publish', message);
 
 		socket.on('broadcast', (response) => {
-			cb(response);
+			done(response);
 		});
 	},
 
@@ -33,6 +33,14 @@ const socketAPI = {
 	}
 
 	// setup getHistory
+	getHistory: function(users, done) {
+		socket.emit('getHistory', users);
+
+		socket.on('sendUserInfo', (response) => {
+			done(response);
+		});
+	}
+
 
 	// setup sendMessage
 

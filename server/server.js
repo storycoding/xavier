@@ -36,6 +36,22 @@ let fakeAuth = {
 	}
 };
 
+// result of select all from messages + sort by date
+let fakeHistory = [
+	{ 
+            publisher: "Other",
+            content: "How are you?"
+          },
+          {
+            publisher: "Self",
+            content: "All good in the hood. You?"
+          },
+          {
+            publisher: "Other",
+            content: "Peachy!"
+          }
+];
+
 io.on('connection', (client) => {
 	let addedUser = false;
 
@@ -89,6 +105,12 @@ io.on('connection', (client) => {
 	// setup rooms
 
 	// setup getHistory
+	client.on('getHistory', (users) => {
+		const { userA, userB } = users;
+		// query database for messages
+			// from userA to userB and vice versa
+		io.emit('sendHistory', fakeHistory);
+	})
 
 	// setup sendMessage
 	client.on('publish', (message) => {
