@@ -15,7 +15,7 @@ class ChatBox extends Component {
 	}
 
 	handleKeyPress = (event) => {
-		if(event.nativeEvent.keyCode == 13 && !event.nativeEvent.shiftKey) {
+		if(event.nativeEvent.keyCode === 13 && !event.nativeEvent.shiftKey) {
 			socketAPI.publish(this.state, (response) => {
 				console.log("response from server on publish: ", response);
 				// warning: the call back is being triggered cumulatively

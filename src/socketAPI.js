@@ -30,7 +30,7 @@ const socketAPI = {
 		socket.on('sendUserInfo', (response) => {
 			done(response);
 		});
-	}
+	},
 
 	// setup getHistory
 	getHistory: function(users, done) {
