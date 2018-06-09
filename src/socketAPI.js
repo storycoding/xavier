@@ -16,8 +16,8 @@ const socketAPI = {
 		});
 	},
 
-	send: function(message, cb) {
-		socket.emit('send', message);
+	publish: function(message, cb) {
+		socket.emit('publish', message);
 
 		socket.on('broadcast', (response) => {
 			cb(response);
