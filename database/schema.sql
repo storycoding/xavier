@@ -7,8 +7,7 @@ CREATE TABLE accounts (
 	account_id SERIAL PRIMARY KEY,
 	email VARCHAR NOT NULL,
 	name VARCHAR NOT NULL,
-	salt VARCHAR NOT NULL,
-	password VARCHAR NOT NULL
+	hash VARCHAR NOT NULL
 );
 
 CREATE TABLE connections (
@@ -25,8 +24,8 @@ CREATE TABLE messages (
 	date_sent TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
-INSERT INTO accounts(email, name, salt, password) VALUES ('laura@hotmail.com','Laura','salt', 'password');
-INSERT INTO accounts(email, name, salt, password) VALUES ('rob@hotmail.com','Rob','salt', 'password');
+INSERT INTO accounts(email, name, hash) VALUES ('laura@hotmail.com','Laura', 'hash');
+INSERT INTO accounts(email, name, hash) VALUES ('rob@hotmail.com','Rob', 'hash');
 
 INSERT INTO connections(a_id, b_id) VALUES ( (SELECT account_id FROM accounts WHERE name = 'Laura') , (SELECT account_id FROM accounts WHERE name = 'Rob') );
 INSERT INTO connections(a_id, b_id) VALUES ( (SELECT account_id FROM accounts WHERE name = 'Rob') , (SELECT account_id FROM accounts WHERE name = 'Laura') );
