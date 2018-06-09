@@ -1,7 +1,7 @@
 const io = require('socket.io')()
 const { socketAPI } = require('../src/socketAPI.js')
 
-const { getMessages } = require('/queries.js')
+const { getMessages } = require('../src/queries.js')
 
 const port = process.env.port || 8000
 

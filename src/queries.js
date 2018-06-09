@@ -39,7 +39,7 @@ const addMessage = function(message, cb) {
 	.catch( (error)=> cb(error) )
 }
 
-const getAccound = function(email, cb) {
+const getAccount = function(email, cb) {
 	knex
 	.select('account_id', 'email', 'name')
 	.from('accounts')
