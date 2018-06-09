@@ -4,13 +4,9 @@ class ChatBox extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			publisher: {
-				name: props.publisher.name,
-				id: props.publisher.id
-			},
-
+			publisher_id: props.publisher.id,
+			subscriber_id: props.publisher.id,
 			content:''
-			
 		}
 	}
 
