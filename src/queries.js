@@ -8,20 +8,38 @@ const knex = require('knex')({
     }
 })
 
-const getMessages = function(a, b, cb) {
+
+const addAccount = function(credentials, cb) {
 	knex
-	.select('*')
-	.from('messages')
-	.where('publisher_id', '=', a)
-	.andWhere('subscriber_id', '=', b)
-	.orWhere('publisher_id', '=', b)
-	.andWhere('subscriber_id', '=', a)
-	.orderBy('date_sent')
+	.insert(credentials)
+	.into('accounts')
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 }
 
-const getUserInfo = function(email, cb) {
+const addConnection = function(a, b, cb) {
+	knex
+	.insert( {a_id: a , b_id: b} )
+	.into('connections')
+	.then( (result)=> cb(result) )
+	.catch( (error)=> cb(error) )
+
+	knex
+	.insert( {a_id: b , b_id: a} )
+	.into('connections')
+	.then( (result)=> cb(result) )
+	.catch( (error)=> cb(error) )
+}
+
+const addMessage = function(message, cb) {
+	knex
+	.insert(message)
+	.into('messages')
+	.then( (result)=> cb(result) )
+	.catch( (error)=> cb(error) )
+}
+
+const getAccound = function(email, cb) {
 	knex
 	.select('account_id', 'email', 'name')
 	.from('accounts')
@@ -39,8 +57,25 @@ const getConnections = function(id, cb) {
 	.catch( (error)=> cb(error) )
 }
 
+const getMessages = function(a, b, cb) {
+	knex
+	.select('*')
+	.from('messages')
+	.where('publisher_id', '=', a)
+	.andWhere('subscriber_id', '=', b)
+	.orWhere('publisher_id', '=', b)
+	.andWhere('subscriber_id', '=', a)
+	.orderBy('date_sent')
+	.then( (result)=> cb(result) )
+	.catch( (error)=> cb(error) )
+}
+
+
 module.exports = {
-  getMessages: getMessages,
-  getUserInfo: getUserInfo,
-  getConnections: getConnections
+  addConnection: addAccount,
+  addConnection: addConnection,
+  addMessage: addMessage,
+  getAccount: getAccount,
+  getConnections: getConnections,
+  getMessages: getMessages
 }
