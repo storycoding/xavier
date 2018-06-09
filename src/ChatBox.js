@@ -19,10 +19,18 @@ class ChatBox extends Component {
 			socketAPI.publish(this.state, (response) => {
 				console.log("response from server on publish: ", response);
 				// warning: the call back is being triggered cumulatively
+				// it's not being triggered by the keypress
+					// must be the callback from publish
+						// probably creating multiple event listeners
 
 				this.setState( { content: "" } );
 			});	
 		}
+	}
+
+	componentDidUpdate() {
+		console.log("ChatBox updated");
+		// component being cumulatively updated due to handleKeyPress
 	}
 	
 	render() {
