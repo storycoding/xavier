@@ -36,7 +36,7 @@ const socketAPI = {
 	getHistory: function(users, done) {
 		socket.emit('getHistory', users);
 
-		socket.on('sendUserInfo', (response) => {
+		socket.on('sendHistory', (response) => {
 			done(response);
 		});
 	}
