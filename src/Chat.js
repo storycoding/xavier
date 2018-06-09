@@ -69,7 +69,7 @@ class Chat extends Component {
 						</div>
 						<WritingContainer/>
 					</div>
-					<ChatBox/>
+					<ChatBox publisher={this.props.publisher}/>
 				</div>
 				
 			</div>

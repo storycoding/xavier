@@ -94,6 +94,7 @@ class App extends Component {
         return <Chat 
           updateContactHistory={this.updateContactHistory.bind(this)}
           chat={this.state.chat}
+          publisher={this.state.email}
           goToPage={this.goToPage.bind(this)}/>;
 
       case 'AddContact':
