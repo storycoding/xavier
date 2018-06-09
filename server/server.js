@@ -140,10 +140,7 @@ io.on('connection', (client) => {
 			// update only the the published message
 				// only trigger history update when chat loads
 
-		io.emit('broadcast', {
-			publisher: message.publisher,
-			content: message.content
-		})
+		io.emit('broadcast', message)
 	})
 
 	// setup sendWriting
