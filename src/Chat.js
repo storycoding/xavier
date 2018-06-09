@@ -1,28 +1,33 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import ChatBox from './ChatBox.js';
-import WritingContainer from './WritingContainer.js';
+import { socketAPI } from './socketAPI.js'
+
+import ChatBox from './ChatBox.js'
+import WritingContainer from './WritingContainer.js'
 
 class Chat extends Component {
 	constructor(props) {
-		super(props);
+		super(props)
 
-		this.state = props.chat;
-	}
-
-	updateContactHistory = (contact, history) => {
-		this.props.updateContactHistory(contact, history);
+		this.state = {
+			publisher: this.props.publisher,
+			subscriber: this.props.subscriber,
+			
+			history: []
+		}
 	}
 
 	// chat input box
-	goToPage = () => { this.props.goToPage("Contacts") }
+	goToContacts = () => { this.props.goToPage('Contacts') }
 
 	componentDidMount() {
-		console.log("call socketAPI here for chat history");
+		console.log('call socketAPI here for chat history')
 
 		// send new room request
 		// await other contact
-
+		socketAPI.getHistory(this.state.users, (response) => {
+			this.setState( { history: response } )
+		})
 		// setState of App via props.updateContactHistory(contact, history)
 
 		// choose
@@ -30,15 +35,20 @@ class Chat extends Component {
 			// or trigger it via local state
 	}
 
+	componentDidUpdate() {
+		console.log('Chat updated')
+		// not triggering
+	}
+
 	render() {
 
 		const history = this.state.history.map( (message, index) => {
 
-			if(message.publisher === this.state.name) {
+			if(message.publisher === this.state.publisher.id) {
 				return (
 					<div
 						key={index}
-						className="other bubble">
+						className='self bubble'>
 						{message.content}
 					</div>
 				)
@@ -47,24 +57,24 @@ class Chat extends Component {
 			return (
 				<div 
 					key={index}
-					className="self bubble">
+					className='other bubble'>
 					{message.content}
 				</div>
 			)
 
-		});
+		})
 
 		return (
-			<div className="page chat">
-				<div className="chatContact">
-					<div className="arrow" onClick={this.goToPage}>
+			<div className='page chat'>
+				<div className='chatContact'>
+					<div className='arrow' onClick={this.goToContacts}>
 					←
 					</div>
-					{this.state.contactName}
+					{this.state.subscriber.name}
 				</div>
-				<div className="flexEnd">
-					<div className="scroll">
-						<div className="history">
+				<div className='flexEnd'>
+					<div className='scroll'>
+						<div className='history'>
 							{history}
 						</div>
 						<WritingContainer/>
@@ -77,4 +87,4 @@ class Chat extends Component {
 	}
 }
 
-export default Chat;
+export default Chat

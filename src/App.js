@@ -1,45 +1,36 @@
-import React, { Component } from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from 'react'
+// import logo from './logo.svg'
+import './App.css'
 
-import Login from './Login.js';
-import Loading from './Loading.js';
-import Contacts from './Contacts.js';
-import Chat from './Chat.js';
-import AddContact from './AddContact.js';
+import Login from './Login.js'
+import Loading from './Loading.js'
+import Contacts from './Contacts.js'
+import Chat from './Chat.js'
+import AddContact from './AddContact.js'
 
 class App extends Component {
   constructor() {
-    super();
+    super()
 
     this.state = {
-      email: "email",
-      name: "self",
-      page: "Login",
-      contacts: ["Other"],
-      chat: {
-        name: "Self",
-        contactName: "Other",
-        history: [
-          { 
-            publisher: "Other",
-            content: "How are you?"
-          },
-          {
-            publisher: "Self",
-            content: "All good in the hood. You?"
-          },
-          {
-            publisher: "Other",
-            content: "Peachy!"
-          }
-        ]
-      }
+      page: 'Login',
+
+      publisher: {
+        name: 'Rob',
+        id: 2
+      },
+      
+      subscriber: {
+        name: 'Laura',
+        id: 1
+      },
+
+      contacts: ['Laura']
     }
   }
 
   componentDidMount() {
-      console.log("componentDidMount state: ", this.state);
+      console.log('AppDidMount state: ', this.state)
       // check for auth cookie
         // if cookie is valid
           // request username from server
@@ -51,22 +42,20 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-      console.log("componentDidUpdate state: ", this.state);
+      console.log('AppDidUpdate state: ', this.state)
   }
 
-  updateContactHistory = (contact, history) => {
-    let contacts = Object.assign(this.state.contacts);
-    contacts[contact] = history;
-    this.setState( {contacts: contacts} );
-  }
-
-  setCredentials = (credentials) => {
-    console.log("App setCredentials: ", credentials);
-    this.setState( credentials );
+  updateUserInfo = (info) => {
+    console.log('App login info: ', info)
+    this.setState( {
+      page : 'Contacts',
+      publisher : info.publisher,
+      contacts : info.contacts
+     } )
   }
 
   goToPage = (page) => {
-    this.setState( { page : page } );
+    this.setState( { page : page } )
   }
 
   renderPage = (page) => {
@@ -75,12 +64,12 @@ class App extends Component {
         return (
           <Login
             goToPage={this.goToPage.bind(this)}
-            setCredentials={this.setCredentials.bind(this)}
+            updateUserInfo={this.updateUserInfo.bind(this)}
           />
         )
 
       case 'Loading':
-        return <Loading goToPage={this.goToPage.bind(this)}/>;
+        return <Loading goToPage={this.goToPage.bind(this)}/>
 
       case 'Contacts':
         return (
@@ -91,27 +80,30 @@ class App extends Component {
         )
 
       case 'Chat':
-        return <Chat 
-          updateContactHistory={this.updateContactHistory.bind(this)}
-          chat={this.state.chat}
-          publisher={this.state.email}
-          goToPage={this.goToPage.bind(this)}/>;
+        return (
+          <Chat 
+            publisher={this.state.publisher}
+            subscriber={this.state.subscriber}
+            goToPage={this.goToPage.bind(this)}
+          />
+        )
 
       case 'AddContact':
-        return <AddContact goToPage={this.goToPage.bind(this)}/>;
+        return <AddContact goToPage={this.goToPage.bind(this)}/>
+
       default:
-        return <Loading goToPage={this.goToPage.bind(this)}/>;
+        return <Loading goToPage={this.goToPage.bind(this)}/>
     }
   }
   render() {
 
 
     return (
-      <div className="App">
+      <div className='App'>
         {this.renderPage(this.state.page)}
       </div>
-    );
+    )
   }
 }
 
-export default App;
+export default App

@@ -1,44 +1,40 @@
-const openSocket = require('socket.io-client');
-const socket = openSocket('http://localhost:8000');
+const openSocket = require('socket.io-client')
+const socket = openSocket('http://localhost:8000')
 
 const socketAPI = {
 	
-	connect: function(credentials, done) {
+	connect: function(credentials, cb) {
 
-		socket.emit('login', credentials);
+		socket.emit('login', credentials)
 
 		socket.on('login response', (response) => {
-			if (response === "success") {
-				console.log("login response from server: ", response)
-				done();
-			}
-			else { done(new Error(response)) }
-		});
+			cb(response)
+		})
 	},
 
-	publish: function(message, done) {
-		socket.emit('publish', message);
+	publish: function(message, cb) {
+		socket.emit('publish', message)
 
 		socket.on('broadcast', (response) => {
-			done(response);
-		});
+			cb(response)
+		})
 	},
 
-	getUserInfo: function(credentials, done) {
-		socket.emit('getUserInfo', credentials);
+	getUserInfo: function(credentials, cb) {
+		socket.emit('getUserInfo', credentials)
 
 		socket.on('sendUserInfo', (response) => {
-			done(response);
-		});
+			cb(response)
+		})
 	},
 
 	// setup getHistory
-	getHistory: function(users, done) {
-		socket.emit('getHistory', users);
+	getHistory: function(users, cb) {
+		socket.emit('getHistory', users)
 
 		socket.on('sendHistory', (response) => {
-			done(response);
-		});
+			cb(response)
+		})
 	}
 
 
@@ -49,4 +45,4 @@ const socketAPI = {
 	// setup getWriting
 }
 
-module.exports = { socketAPI : socketAPI }; 
+module.exports = { socketAPI : socketAPI } 
