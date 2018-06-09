@@ -65,6 +65,11 @@
 
 .chatBox {
   width: 100%;
+  padding: 10px 20px 10px 20px;
+  font-size: 1em;
+  box-shadow: 0px 0px 1px lightgray;
+  border-style: none;
+  resize: none;
 }
 
 .textarea {
