@@ -1,10 +1,11 @@
 const io = require('socket.io')()
-const socketAPI = require('../src/socketAPI.js').socketAPI
+const { socketAPI } = require('../src/socketAPI.js')
+
+const { getMessages } = require('/queries.js')
 
 const port = process.env.port || 8000
 
 let connections = 0
-
 
 let fakeAuth = {
 	'rob@gmail.com' : {
@@ -155,8 +156,6 @@ io.on('connection', (client) => {
   })
 
 })
-
-
 
 
 io.listen(port)
