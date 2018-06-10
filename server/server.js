@@ -1,7 +1,7 @@
 const io = require('socket.io')()
 const { socketAPI } = require('../src/socketAPI.js')
 
-const { getMessages } = require('../src/queries.js')
+const db = require('../src/queries.js')
 
 const port = process.env.port || 8000
 
@@ -120,17 +120,39 @@ io.on('connection', (client) => {
 
 	// setup rooms
 
-	// setup getHistory
-	client.on('getHistory', (users) => {
+	// setup getMessages
+	client.on('getMessages', (users) => {
 		//const { userA, userB } = users
 		// query database for messages
 			// from userA.id to userB.id and vice versa
-		io.emit('sendHistory', fakeHistory)
+			// limit to the latest 20 messages
+		io.emit('sendMessages', fakeHistory)
 	})
 
 	// setup sendMessage
-	client.on('publish', (message) => {
-		console.log(message.content)
+	client.on('sendMessage', (message) => {
+		console.log(`message sent by ${client.name}: `, message)
+
+		// test this cycle
+		db.insertMessage(message, () => {
+			db.selectMessages(message.publisher_id, message.subscriber_id, (result) => {
+				console.log(result)
+			})
+		})
+		// add message to the database
+			// using message.publisher.id as the publisher_id
+
+		// choose:
+			// trigger history update for all users (slow)
+			// update only the the published message
+				// only trigger history update when chat loads
+
+		io.emit('broadcastMessage', message)
+	})
+
+	// setup sendWriting
+	client.on('sendInput', (input) => {
+		console.log(input.content)
 
 		// add message to the database
 			// using message.publisher.id as the publisher_id
@@ -140,11 +162,8 @@ io.on('connection', (client) => {
 			// update only the the published message
 				// only trigger history update when chat loads
 
-		io.emit('broadcast', message)
+		io.emit('broadcastInput', input)
 	})
-
-	// setup sendWriting
-
 	// setup getWriting
 
 	client.on('disconnect', () => {

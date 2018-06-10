@@ -4,7 +4,6 @@ const socket = openSocket('http://localhost:8000')
 const socketAPI = {
 	
 	connect: function(credentials, cb) {
-
 		socket.emit('login', credentials)
 
 		socket.on('login response', (response) => {
@@ -12,10 +11,10 @@ const socketAPI = {
 		})
 	},
 
-	publish: function(message, cb) {
-		socket.emit('publish', message)
+	sendMessage: function(message, cb) {
+		socket.emit('sendMessage', message)
 
-		socket.on('broadcast', (response) => {
+		socket.on('broadcastMessage', (response) => {
 			cb(response)
 		})
 	},
@@ -28,21 +27,21 @@ const socketAPI = {
 		})
 	},
 
-	// setup getHistory
-	getHistory: function(users, cb) {
-		socket.emit('getHistory', users)
+	getMessages: function(users, cb) {
+		socket.emit('getMessages', users)
 
-		socket.on('sendHistory', (response) => {
+		socket.on('sendMessages', (response) => {
+			cb(response)
+		})
+	},
+
+	sendInput: function(input, cb) {
+		socket.emit('sendInput', input)
+
+		socket.on('broadcastInput', (response) => {
 			cb(response)
 		})
 	}
-
-
-	// setup sendMessage
-
-	// setup sendWriting
-
-	// setup getWriting
 }
 
 module.exports = { socketAPI : socketAPI } 
