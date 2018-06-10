@@ -9,7 +9,7 @@ const knex = require('knex')({
 })
 
 
-const addAccount = function(credentials, cb) {
+const insertAccount = function(credentials, cb) {
 	knex
 	.insert(credentials)
 	.into('accounts')
@@ -17,7 +17,17 @@ const addAccount = function(credentials, cb) {
 	.catch( (error)=> cb(error) )
 }
 
-const addConnection = function(a, b, cb) {
+const selectAccount = function(email, cb) {
+	knex
+	.select('account_id', 'email', 'name')
+	.from('accounts')
+	.where('email', '=', email)
+	.then( (result)=> cb(result) )
+	.catch( (error)=> cb(error) )
+}
+
+
+const insertConnection = function(a, b, cb) {
 	knex
 	.insert( {a_id: a , b_id: b} )
 	.into('connections')
@@ -31,24 +41,7 @@ const addConnection = function(a, b, cb) {
 	.catch( (error)=> cb(error) )
 }
 
-const addMessage = function(message, cb) {
-	knex
-	.insert(message)
-	.into('messages')
-	.then( (result)=> cb(result) )
-	.catch( (error)=> cb(error) )
-}
-
-const getAccount = function(email, cb) {
-	knex
-	.select('account_id', 'email', 'name')
-	.from('accounts')
-	.where('email', '=', email)
-	.then( (result)=> cb(result) )
-	.catch( (error)=> cb(error) )
-}
-
-const getConnections = function(id, cb) {
+const selectConnection = function(id, cb) {
 	knex
 	.select('b_id')
 	.from('connections')
@@ -57,9 +50,18 @@ const getConnections = function(id, cb) {
 	.catch( (error)=> cb(error) )
 }
 
-const getMessages = function(a, b, cb) {
+
+const insertMessage = function(message, cb) {
 	knex
-	.select('*')
+	.insert(message)
+	.into('messages')
+	.then( (result)=> cb(result) )
+	.catch( (error)=> cb(error) )
+}
+
+const selectMessages = function(a, b, cb) {
+	knex
+	.select('publisher_id', 'content')
 	.from('messages')
 	.where('publisher_id', '=', a)
 	.andWhere('subscriber_id', '=', b)
@@ -72,10 +74,10 @@ const getMessages = function(a, b, cb) {
 
 
 module.exports = {
-  addConnection: addAccount,
-  addConnection: addConnection,
-  addMessage: addMessage,
-  getAccount: getAccount,
-  getConnections: getConnections,
-  getMessages: getMessages
+  insertAccount: insertAccount,
+  selectAccount: selectAccount,
+  insertConnection: insertConnection,
+  selectConnection: selectConnection,
+  insertMessage: insertMessage,
+  selectMessages: selectMessages
 }
