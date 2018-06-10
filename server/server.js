@@ -40,17 +40,17 @@ let fakeAuth = {
 // result of select all from messages + sort by date
 let fakeHistory = [
 	{ 
-            publisher: 2,
-            content: "How are you?"
-          },
-          {
-            publisher: 1,
-            content: "All good in the hood. You?"
-          },
-          {
-            publisher: 2,
-            content: "Peachy!"
-          }
+        publisher: 2,
+        content: "How are you?"
+	 },
+	 {
+        publisher: 1,
+        content: "All good in the hood. You?"
+     },
+     {
+        publisher: 2,
+        content: "Peachy!"
+     }
 ]
 
 io.on('connection', (client) => {
