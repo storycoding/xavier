@@ -3,7 +3,7 @@ const knex = require('knex')({
     connection: {
       	host: process.env.HOST || '127.0.0.1', 
       	user: process.env.USER || 'nunoneves', 
-      	password: process.env.PASSWORD || '', 
+      	hash: process.env.hash || '', 
       	database: process.env.DATABASE || 'xavier'
     }
 })
@@ -17,11 +17,12 @@ const insertAccount = function(credentials, cb) {
 	.catch( (error)=> cb(error) )
 }
 
-const selectAccount = function(email, cb) {
+const selectAccount = function(credentials, cb) {
 	knex
-	.select('account_id', 'email', 'name')
+	.select('id', 'name')
 	.from('accounts')
-	.where('email', '=', email)
+	.where('hash', '=', credentials.hash)
+	.andWhere('email', '=', credentials.email)
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 }
@@ -29,21 +30,21 @@ const selectAccount = function(email, cb) {
 
 const insertConnection = function(a, b, cb) {
 	knex
-	.insert( {a_id: a , b_id: b} )
+	.insert( {a_id: a.id , b_id: b.id, b_name: b.name} )
 	.into('connections')
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 
 	knex
-	.insert( {a_id: b , b_id: a} )
+	.insert( {a_id: b.id , b_id: a.id, b_name: a.name} )
 	.into('connections')
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 }
 
-const selectConnection = function(id, cb) {
+const selectConnections = function(id, cb) {
 	knex
-	.select('b_id')
+	.select('b_id', 'b_name')
 	.from('connections')
 	.where('a_id', '=', id)
 	.then( (result)=> cb(result) )
@@ -74,10 +75,10 @@ const selectMessages = function(a, b, cb) {
 
 
 module.exports = {
-  insertAccount: insertAccount,
-  selectAccount: selectAccount,
-  insertConnection: insertConnection,
-  selectConnection: selectConnection,
-  insertMessage: insertMessage,
-  selectMessages: selectMessages
+  	insertAccount: insertAccount,
+  	selectAccount: selectAccount,
+  	insertConnection: insertConnection,
+  	selectConnections: selectConnections,
+  	insertMessage: insertMessage,
+  	selectMessages: selectMessages
 }
