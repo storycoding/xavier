@@ -4,8 +4,8 @@ class ChatBox extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			publisher_id: props.publisher.id,
-			subscriber_id: props.publisher.id,
+			publisher_id: props.publisher_id,
+			subscriber_id: props.subscriber_id,
 			content:''
 		}
 	}
@@ -17,11 +17,13 @@ class ChatBox extends Component {
 
 	handleKeyPress = (event) => {
 		if(event.nativeEvent.keyCode === 13 && !event.nativeEvent.shiftKey) {
-			socketAPI.publish(this.state, (response) => {
-				console.log('response from server on publish: ', response)
+			// only content is being sent - fix this
+			console.log('message to be sent to server: ', this.state)
+			socketAPI.sendMessage(this.state, (response) => {
+				console.log('response from server on sendMessage: ', response)
 				// warning: the call back is being triggered cumulatively
 				// it's not being triggered by the keypress
-					// must be the callback from publish
+					// must be the callback from sendMessage
 						// probably creating multiple event listeners
 
 				this.setState( { content: '' } )

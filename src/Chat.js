@@ -10,8 +10,9 @@ class Chat extends Component {
 		super(props)
 
 		this.state = {
-			publisher: this.props.publisher,
-			subscriber: this.props.subscriber,
+			publisher_id: this.props.publisher.id,
+			subscriber_id: this.props.subscriber.id,
+			subscriber_name: this.props.subscriber.name,
 			
 			history: []
 		}
@@ -25,7 +26,7 @@ class Chat extends Component {
 
 		// send new room request
 		// await other contact
-		socketAPI.getHistory(this.state.users, (response) => {
+		socketAPI.getMessages(this.state.users, (response) => {
 			this.setState( { history: response } )
 		})
 		// setState of App via props.updateContactHistory(contact, history)
@@ -44,7 +45,7 @@ class Chat extends Component {
 
 		const history = this.state.history.map( (message, index) => {
 
-			if(message.publisher === this.state.publisher.id) {
+			if(message.publisher === this.state.publisher_id) {
 				return (
 					<div
 						key={index}
@@ -70,7 +71,7 @@ class Chat extends Component {
 					<div className='arrow' onClick={this.goToContacts}>
 					←
 					</div>
-					{this.state.subscriber.name}
+					{this.state.subscriber_name}
 				</div>
 				<div className='flexEnd'>
 					<div className='scroll'>
@@ -80,8 +81,8 @@ class Chat extends Component {
 						<WritingContainer/>
 					</div>
 					<ChatBox
-						publisher={this.props.publisher}
-						subscriber={this.props.subscriber}
+						publisher_id={this.state.publisher_id}
+						subscriber_id={this.state.subscriber_id}
 					/>
 				</div>
 				
