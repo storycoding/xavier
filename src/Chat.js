@@ -9,7 +9,7 @@ const Chat = (props) => {
 
 	const history = props.history.map( (message, index) => {
 
-		if(message.publisher === props.publisher.id) {
+		if(message.publisher_id === props.publisher.id) {
 			return (
 				<div
 					key={index}
@@ -35,7 +35,7 @@ const Chat = (props) => {
 				<div className='arrow' onClick={props.goToContacts}>
 				←
 				</div>
-				{props.subscriber_name}
+				{props.subscriber.name}
 			</div>
 			<div className='flexEnd'>
 				<div className='scroll'>
