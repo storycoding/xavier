@@ -19,7 +19,7 @@ const insertAccount = function(credentials, cb) {
 
 const selectAccount = function(credentials, cb) {
 	knex
-	.select('id', 'name')
+	.select('id', 'email', 'name')
 	.from('accounts')
 	.where('hash', '=', credentials.hash)
 	.andWhere('email', '=', credentials.email)
