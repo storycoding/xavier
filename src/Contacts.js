@@ -6,6 +6,7 @@ const Contacts = (props) => {
 
 	const goToChat = () => props.goToPage('Chat')
 
+	// clicking a contact should update the App.state.subscriber
 	const contacts = props.contacts.map( (contact, index) => {
 		return (
 			<div

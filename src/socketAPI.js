@@ -6,8 +6,13 @@ const socketAPI = {
 	connect: function(credentials, cb) {
 		socket.emit('login', credentials)
 
-		socket.on('login response', (response) => {
-			cb(response)
+		socket.on('login response', (loginInfo) => {
+			// handle loginInfo === 'badCredentials'
+
+			// if login is good
+				// register all socket.on actions here
+
+			cb(loginInfo)
 		})
 	},
 
@@ -15,14 +20,6 @@ const socketAPI = {
 		socket.emit('sendMessage', message)
 
 		socket.on('broadcastMessage', (response) => {
-			cb(response)
-		})
-	},
-
-	getUserInfo: function(credentials, cb) {
-		socket.emit('getUserInfo', credentials)
-
-		socket.on('sendUserInfo', (response) => {
 			cb(response)
 		})
 	},
@@ -35,9 +32,14 @@ const socketAPI = {
 		})
 	},
 
+	// input should have publisher_id and content
 	sendInput: function(input, cb) {
 		socket.emit('sendInput', input)
 
+		// the input is pinged to the socket
+			// sends subscriber_id of the contact as an argument
+
+		// to test own input from server	
 		socket.on('broadcastInput', (response) => {
 			cb(response)
 		})
