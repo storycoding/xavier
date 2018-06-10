@@ -5,154 +5,94 @@ const db = require('../src/queries.js')
 
 const port = process.env.port || 8000
 
-let connections = 0
+let usedSockets = 0
 
-let fakeAuth = {
-	'rob@gmail.com' : {
-		name: 'Rob',
-		email: 'rob@gmail.com',
-		password: 'password',
-		contacts: ["Laura"]
-	},
-
-	'laura@gmail.com' : {
-		name: 'Laura',
-		email: 'laura@gmail.com',
-		password: 'password',
-		contacts: ["Rob"]
-	},
-
-	'distracted@gmail.com' : {
-		name: 'Distracted',
-		email: 'distracted@gmail.com',
-		password: 'password',
-		contacts: []
-	},
-
-	'forgetful@gmail.com' : {
-		name: 'Forgetful',
-		email: 'forgetful@gmail.com',
-		password: 'password',
-		contacts: []
-	}
-}
-
-// result of select all from messages + sort by date
-let fakeHistory = [
-	{ 
-        publisher: 2,
-        content: "How are you?"
-	 },
-	 {
-        publisher: 1,
-        content: "All good in the hood. You?"
-     },
-     {
-        publisher: 2,
-        content: "Peachy!"
-     }
-]
+// for unit testing between server and client
+// const { fakeAuth, fakeHistory } = require('./fakeData.js')
 
 io.on('connection', (client) => {
 	let addedUser = false
 
 	client.on('login', (credentials) => {
-		const { email, password } = credentials
-
-		console.log(`${email} is trying to connect to the chat with password: ${password}`)
+		console.log(`${credentials.email} is trying to connect to the chat with credentials: `, credentials)
 
 		if (addedUser) {
 			client.emit('login response', 'already connected')
-			console.log(`${email} failed to connect`)
-			return
-		}
-
-		else if (!password || password.length < 1) {
-			client.emit('login response', 'no password')
-			console.log(`${email} failed to connect`)
-			return
-		}
-
-		// replace fakeAuth with call to database
-		else if( fakeAuth[email].password !== password ) {
-			client.emit('login response', 'wrong password')
-			console.log(`${email} failed to connect`)
+			console.log(`${credentials.email} failed to connect: already connected`)
 			return
 		}
 
 		else {
-			// check database for client.name & client.id
-				const data = {
-					publisher: {
-						name: 'Rob',
-						id: 2
-					},
+			// get real hash from bcrypt
+			credentials.hash = 'hash'
 
-					contacts : ['Laura']
+			db.selectAccount(credentials, (account) => {
+				console.log('account from selectAccount: ', account)
+
+				if(account.length === 0) {
+					console.log('account verification failed - invalid credentials: ', credentials)
+					client.emit('login response', 'badCredentials')
+					return
 				}
 
-			client.name = data.publisher.name
-			client.id = data.publisher.id
+				db.selectConnections( account[0].id, (contacts) => {
+					console.log('data retrieved from selectConnections: ', contacts)
+					
 
-			console.log(`${email} connected to the chat as ${client.name}`)
+					const loginInfo = {
+						publisher {
+							name: account[0].name,
+							id: account[0].id
+						},
+						contacts: contacts
+					}
 
-			connections ++
-			addedUser = true
+					client.emit('login response', loginInfo)
+					console.log(`${credentials.email} connected to the chat as: ${account[0].name}`)
 
-			client.emit('login response', data)
-			return
+					// do I really need all these?
+					client.id = account[0].id // overwrites the default client.id from the socket
+					client.name = account[0].name
+					client.email = account[0].email
+
+					usedSockets ++
+					addedUser = true
+				})
+			})
 		}
 	})
 
-	client.on('getUserInfo', (credentials) => {
-		// check credentials against database
-			// get name, id, contacts
-				// send them to the client
-
-			// placeholder
-			client.emit('sendUserInfo', {
-				name : "Rob",
-				id: 2,
-				email : "rob@gmail.com",
-				contacts : ["Laura"]
-			})
-	})
-
-	// setup rooms
-
-	// setup getMessages
 	client.on('getMessages', (users) => {
-		//const { userA, userB } = users
-		// query database for messages
-			// from userA.id to userB.id and vice versa
-			// limit to the latest 20 messages
-		io.emit('sendMessages', fakeHistory)
+
+		// limit to the latest 20 messages
+		db.selectMessages(users.publisher_id, users.subscriber_id, (messages) => {
+				console.log(messages)
+				io.emit('sendMessages', messages)
+			})
+
 	})
 
-	// setup sendMessage
 	client.on('sendMessage', (message) => {
 		console.log(`message sent by ${client.name}: `, message)
 
-		// test this cycle
+
 		db.insertMessage(message, () => {
-			db.selectMessages(message.publisher_id, message.subscriber_id, (result) => {
-				console.log(result)
+
+			// just for testing
+			db.selectMessages(message.publisher_id, message.subscriber_id, (messages) => {
+				console.log(messages)
 			})
 		})
-		// add message to the database
-			// using message.publisher.id as the publisher_id
 
-		// choose:
-			// trigger history update for all users (slow)
-			// update only the the published message
-				// only trigger history update when chat loads
+		// update only the the published message
+			// only trigger history update when chat loads
 
 		io.emit('broadcastMessage', message)
 	})
 
 	// setup sendWriting
 	client.on('sendInput', (input) => {
-		console.log(input.content)
+		console.log('sendInput content: ', input.content)
 
 		// add message to the database
 			// using message.publisher.id as the publisher_id
@@ -164,11 +104,14 @@ io.on('connection', (client) => {
 
 		io.emit('broadcastInput', input)
 	})
-	// setup getWriting
+
+	// todo: getWriting
+
+	// todo: rooms
 
 	client.on('disconnect', () => {
 		console.log(`${client.name} disconnected from the chat`)
-    if (addedUser) { connections -- }
+    if (addedUser) { usedSockets -- }
   })
 
 })
