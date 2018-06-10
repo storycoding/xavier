@@ -25,12 +25,34 @@ class App extends Component {
         id: 1
       },
 
-      contacts: ['Laura']
+      contacts: ['Laura'],
+
+      history: [
+        { 
+          publisher: 2,
+          content: "How are you?"
+        },
+        {
+          publisher: 1,
+          content: "All good in the hood. You?"
+        },
+        {
+          publisher: 2,
+          content: "Peachy!"
+        }
+      ]
     }
   }
 
   componentDidMount() {
-      console.log('AppDidMount state: ', this.state)
+      console.log('AppDidMount: ', this.state)
+
+      /*
+      socketAPI.getMessages(this.state.users, (response) => {
+        this.setState( { history: response } )
+      })
+      */
+
       // check for auth cookie
         // if cookie is valid
           // request username from server
@@ -42,7 +64,7 @@ class App extends Component {
   }
 
   componentDidUpdate() {
-      console.log('AppDidUpdate state: ', this.state)
+      console.log('AppDidUpdate: ', this.state)
   }
 
   updateUserInfo = (info) => {
@@ -84,7 +106,8 @@ class App extends Component {
           <Chat 
             publisher={this.state.publisher}
             subscriber={this.state.subscriber}
-            goToPage={this.goToPage.bind(this)}
+            goToContacts={this.goToPage.bind(this, 'Contacts')}
+            history={this.state.history}
           />
         )
 
