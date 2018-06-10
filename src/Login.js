@@ -41,6 +41,14 @@ class Login extends Component {
 		this.setState( {[event.target.name] : event.target.value} )
 	}
 
+	componentDidMount() {
+      console.log('LoginDidMount: ', this.state)
+  }
+
+	componentDidUpdate() {
+      console.log('LoginDidUpdate: ', this.state)
+  }
+
 
 	render() {
 		return (

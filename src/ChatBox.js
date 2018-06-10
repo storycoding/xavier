@@ -31,8 +31,13 @@ class ChatBox extends Component {
 		}
 	}
 
+	componentDidMount() {
+		console.log('ChatBoxDidMount: ', this.state)
+		// component being cumulatively updated due to handleKeyPress
+	}
+
 	componentDidUpdate() {
-		console.log('ChatBox updated')
+		console.log('ChatBoxDidUpdate: ', this.state)
 		// component being cumulatively updated due to handleKeyPress
 	}
 	
