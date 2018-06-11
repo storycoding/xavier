@@ -17,82 +17,86 @@ io.on('connection', (client) => {
 		console.log(`${credentials.email} is trying to connect to the chat with credentials: `, credentials)
 
 		if (addedUser) {
-			client.emit('login response', 'already connected')
+			client.emit('login denied', 'already connected')
 			console.log(`${credentials.email} failed to connect: already connected`)
 			return
 		}
 
 		else {
-			// get real hash from bcrypt
-			credentials.hash = 'hash'
+			
+			credentials.hash = 'hash'  // get real hash from bcrypt <--------------
 
 			db.selectAccount(credentials, (account) => {
 				console.log('account from selectAccount: ', account)
 
 				if(account.length === 0) {
 					console.log('account verification failed - invalid credentials: ', credentials)
-					client.emit('login response', 'badCredentials')
+					client.emit('login denied', 'wrong email or password')
 					return
 				}
 
-				db.selectConnections( account[0].id, (contacts) => {
+				client.emit('login approved', account[0])
+
+				client.account_id = account[0].id
+				client.name = account[0].name
+
+				addedUser = true
+				usedSockets ++
+
+				console.log(`${credentials.email} connected to the chat as: ${account[0].name}`)
+
+
+
+				// get all data from DB and send it to the client
+				db.selectConnections( client.account_id, (contacts) => {
 					console.log('data retrieved from selectConnections: ', contacts)
-					
-
-					const loginInfo = {
-						publisher {
-							name: account[0].name,
-							id: account[0].id
-						},
-						contacts: contacts
-					}
-
-					client.emit('login response', loginInfo)
-					console.log(`${credentials.email} connected to the chat as: ${account[0].name}`)
-
-					// do I really need all these?
-					client.id = account[0].id // overwrites the default client.id from the socket
-					client.name = account[0].name
-					client.email = account[0].email
-
-					usedSockets ++
-					addedUser = true
+					client.emit('broadcast contacts', contacts)		
 				})
+
+
+
 			})
 		}
 	})
 
-	client.on('getMessages', (users) => {
 
+	client.on('get contacts', () => {
+		db.selectConnections( client.account_id, (contacts) => {
+			console.log('data retrieved from selectConnections: ', contacts)
+
+			client.emit('broadcast contacts', contacts)		
+		})
+	})
+
+
+	client.on('get history', (users) => {
+		console.log('client get history users: ', users)
 		// limit to the latest 20 messages
-		db.selectMessages(users.publisher_id, users.subscriber_id, (messages) => {
-				console.log(messages)
-				io.emit('sendMessages', messages)
+		db.selectMessages(users.publisher_id, users.subscriber_id, (history) => {
+				console.log('data retrieved from get history: ', history)
+				client.emit('broadcast history', history)
 			})
 
 	})
 
-	client.on('sendMessage', (message) => {
+
+	client.on('send message', (message) => {
 		console.log(`message sent by ${client.name}: `, message)
 
 
 		db.insertMessage(message, () => {
 
-			// just for testing
-			db.selectMessages(message.publisher_id, message.subscriber_id, (messages) => {
-				console.log(messages)
+			// test
+			db.selectMessages(message.publisher_id, message.subscriber_id, (history) => {
+				console.log( 'message being broadcast by user: ', message)
+				client.emit('broadcast history', history)  // needs optimizing
 			})
 		})
-
-		// update only the the published message
-			// only trigger history update when chat loads
-
-		io.emit('broadcastMessage', message)
 	})
 
-	// setup sendWriting
-	client.on('sendInput', (input) => {
-		console.log('sendInput content: ', input.content)
+
+	client.on('send input', (input) => {
+		console.log('send input content: ', input.content)
 
 		// add message to the database
 			// using message.publisher.id as the publisher_id
@@ -102,7 +106,7 @@ io.on('connection', (client) => {
 			// update only the the published message
 				// only trigger history update when chat loads
 
-		io.emit('broadcastInput', input)
+		client.emit('broadcast input', input)
 	})
 
 	// todo: getWriting
