@@ -17,40 +17,42 @@ class App extends Component {
       page: 'Login',
 
       publisher: {
-        name: null,
-        id: null
+        name: '',
+        id: ''
       },
       
       subscriber: {
-        name: null,
-        id: null
+        name: '',
+        id: ''
       },
 
-      contacts: null,
-
-      history: null
+      contacts: [],
+      history: [],
+      input: ''
     }
   }
 
-  goToPage = (page) => {
-    this.setState( { page : page } )
-  }
+
+  updatePage = (page) => this.setState( { page : page } )
+  updateSubscriber = (subscriber) => this.setState( { subscriber : subscriber } )
+  clearHistory = (history) => this.setState( { history: [] } )
+
+  updatePublisher = (publisher) => this.setState( { publisher : publisher } )
+  updateHistory = (history) => this.setState( { history: history } )
+  updateInput = (input) => this.setState( { input: input } )
+  updateContacts = (contacts) => this.setState( { contacts : contacts } )
+  
 
   componentDidMount() {
       console.log('AppDidMount: ', this.state)
-
-      const users = {
-        publisher_id : this.state.publisher.id,
-        subscriber_id : this.state.subscriber.id
-      }
-
-      if(this.state.publisher.id) {
-        socketAPI.getMessages(users, (response) => {
-          this.setState( { history: response } )
-        })
-      }
       
-
+      socketAPI.registerForUpdates(
+        this.updatePublisher, 
+        this.updateSubscriber,
+        this.updateHistory,
+        this.updateInput,
+        this.updateContacts
+      )
       // check for auth cookie
         // if cookie is valid
           // request username from server
@@ -61,9 +63,10 @@ class App extends Component {
           // load Login page
   }
 
+  
   shouldComponentUpdate(nextProps, nextState) {
     console.log('AppShouldUpdate?')
-    if (this.state.history !== nextState.history) {
+    if (this.state.history.length !== nextState.history.length) {
       return true;
     }
 
@@ -71,23 +74,20 @@ class App extends Component {
       return true;
     }
 
+    if (this.state.contacts.length !== nextState.contacts.length) {
+      return true;
+    }
+
+    if(this.state.subscriber.id !== nextState.subscriber.id) {
+      return true
+    }
+
     return false;
   }
+  
 
   componentDidUpdate() {
       console.log('AppDidUpdate: ', this.state)
-  }
-
-// get subscribe
-  updateUserInfo = (info) => {
-    console.log('App login info: ', info)
-
-    this.setState( {
-      page : 'Contacts',
-      publisher : info.publisher,
-      subscriber : { name: 'Laura', id:'1'},
-      contacts : info.contacts
-     } )
   }
 
   renderPage = (page) => {
@@ -95,37 +95,39 @@ class App extends Component {
       case 'Login':
         return (
           <Login
-            goToPage={this.goToPage.bind(this)}
-            updateUserInfo={this.updateUserInfo.bind(this)}
+            updatePage={this.updatePage.bind(this)}
           />
         )
 
       case 'Loading':
-        return <Loading goToPage={this.goToPage.bind(this)}/>
+        return <Loading updatePage={this.updatePage.bind(this)}/>
 
       case 'Contacts':
         return (
           <Contacts
+            updateSubscriber={this.updateSubscriber.bind(this)}
             contacts={this.state.contacts}
-            goToPage={this.goToPage.bind(this)}
+            updatePage={this.updatePage.bind(this)}
           />
         )
 
       case 'Chat':
         return (
-          <Chat 
+          <Chat
+            clearHistory={this.clearHistory.bind(this)}
             publisher={this.state.publisher}
             subscriber={this.state.subscriber}
-            goToContacts={this.goToPage.bind(this, 'Contacts')}
+            goToContacts={this.updatePage.bind(this, 'Contacts')}
             history={this.state.history}
+            updateHistory={this.updateHistory.bind(this)}
           />
         )
 
       case 'AddContact':
-        return <AddContact goToPage={this.goToPage.bind(this)}/>
+        return <AddContact updatePage={this.updatePage.bind(this)}/>
 
       default:
-        return <Loading goToPage={this.goToPage.bind(this)}/>
+        return <Loading updatePage={this.updatePage.bind(this)}/>
     }
   }
   render() {
