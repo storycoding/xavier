@@ -3,46 +3,32 @@ const socket = openSocket('http://localhost:8000')
 
 const socketAPI = {
 	
-	connect: function(credentials, cb) {
+	registerForUpdates: function( Publisher, Subscriber, History, Input, Contacts) {
+		socket.on('login approved', (loginInfo) => Publisher(loginInfo) )
+		socket.on('login denied', (error) => console.log(error) )
+		socket.on('broadcast history', (history) => History(history) )
+		socket.on('broadcast input', (input) => Input(input) )
+		socket.on('broadcast contacts', (contacts) => Contacts(contacts) )
+	},
+
+	login: function(credentials) {
 		socket.emit('login', credentials)
-
-		socket.on('login response', (loginInfo) => {
-			// handle loginInfo === 'badCredentials'
-
-			// if login is good
-				// register all socket.on actions here
-
-			cb(loginInfo)
-		})
 	},
 
-	sendMessage: function(message, cb) {
-		socket.emit('sendMessage', message)
-
-		socket.on('broadcastMessage', (response) => {
-			cb(response)
-		})
+	getHistory: function(users) {
+		socket.emit('get history', users)
 	},
 
-	getMessages: function(users, cb) {
-		socket.emit('getMessages', users)
-
-		socket.on('sendMessages', (response) => {
-			cb(response)
-		})
+	sendMessage: function(message) {
+		socket.emit('send message', message)	
 	},
 
-	// input should have publisher_id and content
-	sendInput: function(input, cb) {
-		socket.emit('sendInput', input)
+	sendInput: function(input) {
+		socket.emit('send input', input)
+	},
 
-		// the input is pinged to the socket
-			// sends subscriber_id of the contact as an argument
-
-		// to test own input from server	
-		socket.on('broadcastInput', (response) => {
-			cb(response)
-		})
+	getContacts: function() {
+		socket.emit('get contacts')
 	}
 }
 
