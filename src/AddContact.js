@@ -14,7 +14,7 @@ class AddContact extends Component {
 	}
 	
 	handleSubmit = () => {
-		console.log('Searching for contact (not)')
+		console.log('Search triggered, not yet implemented')
 		// actually trigger search for an existing account
 			// create the relation in the database
 	}
