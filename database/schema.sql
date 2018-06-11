@@ -24,6 +24,25 @@ CREATE TABLE messages (
 	date_sent TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
 );
 
+CREATE TABLE videos (
+	id SERIAL PRIMARY KEY,
+	publisher_id INT NOT NULL,
+	subscriber_id INT NOT NULL,
+	link VARCHAR NOT NULL,
+	length INT,
+	date_sent TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
+CREATE TABLE images (
+	id SERIAL PRIMARY KEY,
+	publisher_id INT NOT NULL,
+	subscriber_id INT NOT NULL,
+	link VARCHAR NOT NULL,
+	width INT NOT NULL,
+	height INT NOT NULL,
+	date_sent TIMESTAMP WITH TIME ZONE NOT NULL DEFAULT NOW()
+);
+
 INSERT INTO accounts(email, name, hash) VALUES ('laura@hotmail.com','Laura', 'hash');
 INSERT INTO accounts(email, name, hash) VALUES ('rob@hotmail.com','Rob', 'hash');
 INSERT INTO accounts(email, name, hash) VALUES ('ollie@hotmail.com','Ollie', 'hash');
@@ -45,3 +64,12 @@ INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '2' , '1' ,
 INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '1' , '2' , 'And what would that be?' );
 INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '2' , '1' , 'Lets go SURFING!' );
 INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '1' , '2' , ':D' );
+
+INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '3' , '1' , 'Finally going on a Holiday!' );
+INSERT INTO images (publisher_id, subscriber_id, link, width, height) VALUES ('3', '1', 'https://i.imgur.com/Tgywof3.jpg', '640', '640');
+INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '1' , '3' , 'Take me with you!' );
+
+
+INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '2' , '3' , 'M8 check this out' );
+INSERT INTO videos (publisher_id, subscriber_id, link, length) VALUES ('2', '3', 'https://youtu.be/TA9LVzuC7z4', '2702');
+INSERT INTO messages (publisher_id, subscriber_id, content) VALUES ( '3' , '2' , 'Busy now, driving!' );
