@@ -5,28 +5,19 @@ import { socketAPI } from './socketAPI.js'
 import ChatBox from './ChatBox.js'
 import WritingContainer from './WritingContainer.js'
 
+
 const Chat = (props) => {
 
+	const users = {
+		publisher_id : props.publisher.id,
+		subscriber_id : props.subscriber.id
+	}
+
+	socketAPI.getHistory(users) // might be worth moving to the contacts page to avoid re-rendering
+
 	const history = props.history.map( (message, index) => {
-
-		if(message.publisher_id === props.publisher.id) {
-			return (
-				<div
-					key={index}
-					className='self bubble'>
-					{message.content}
-				</div>
-			)
-		}
-
-		return (
-			<div 
-				key={index}
-				className='other bubble'>
-				{message.content}
-			</div>
-		)
-
+		const style = (message.publisher_id === props.publisher.id) ? 'self bubble' : 'other bubble'
+		return <div key={index} className={style}>{message.content}</div>
 	})
 
 	return (
