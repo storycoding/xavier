@@ -8,7 +8,6 @@ const knex = require('knex')({
     }
 })
 
-
 const insertAccount = function(credentials, cb) {
 	knex
 	.insert(credentials)
@@ -19,7 +18,7 @@ const insertAccount = function(credentials, cb) {
 
 const selectAccount = function(credentials, cb) {
 	knex
-	.select('id', 'email', 'name')
+	.select('id', 'name')
 	.from('accounts')
 	.where('hash', '=', credentials.hash)
 	.andWhere('email', '=', credentials.email)
@@ -27,16 +26,15 @@ const selectAccount = function(credentials, cb) {
 	.catch( (error)=> cb(error) )
 }
 
-
 const insertConnection = function(a, b, cb) {
 	knex
-	.insert( {a_id: a.id , b_id: b.id, b_name: b.name} )
+	.insert( {from_id: a.id , id: b.id, name: b.name} )
 	.into('connections')
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 
 	knex
-	.insert( {a_id: b.id , b_id: a.id, b_name: a.name} )
+	.insert( {from_id: b.id , id: a.id, name: a.name} )
 	.into('connections')
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
@@ -44,13 +42,12 @@ const insertConnection = function(a, b, cb) {
 
 const selectConnections = function(id, cb) {
 	knex
-	.select('b_id', 'b_name')
+	.select('id', 'name')
 	.from('connections')
-	.where('a_id', '=', id)
+	.where('from_id', '=', id)
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 }
-
 
 const insertMessage = function(message, cb) {
 	knex
@@ -72,7 +69,6 @@ const selectMessages = function(a, b, cb) {
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
 }
-
 
 module.exports = {
   	insertAccount: insertAccount,
