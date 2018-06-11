@@ -29,6 +29,10 @@ const socketAPI = {
 
 	getContacts: function() {
 		socket.emit('get contacts')
+	},
+
+	searchContact: function(email) {
+		socket.emit('search contacts')
 	}
 }
 
