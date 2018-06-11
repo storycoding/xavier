@@ -3,30 +3,34 @@ import React, { Component } from 'react';
 class AddContact extends Component {
 	constructor() {
 		super();
-		// controlled component
-		// holds state for API calls to the socket
-			// email
+
 		this.state = {
-			email: "Laura@gmail.com"
+			email: 'Laura@gmail.com'
 		}
+	}
+
+	handleInput = (event) => {
+		this.setState( { email : event.target.value } )
 	}
 	
 	handleSubmit = () => {
-		console.log("Searching for contact (not)")
+		console.log('Searching for contact (not)')
+		// actually trigger search for an existing account
+			// create the relation in the database
 	}
 
 	render() {
 		return (
-			<form className="page addContact" onSubmit={this.handleSubmit}>
+			<form className='page addContact' onSubmit={this.handleSubmit}>
 				<input
-					type="text"
-					placeholder="email"
-					className="bubble" 
+					name='email'
+					type='text'
+					placeholder='email'
+					className='bubble' 
 					value={this.state.email}
-				>
-					{this.state.email}
-				</input>
-				<div className="bubble">search</div>
+					onChange={this.handleInput}
+				/>
+				<div className='bubble' onClick={this.handleSubmit}>search</div>
 			</form>
 			);
 	}
