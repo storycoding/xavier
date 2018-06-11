@@ -11,34 +11,14 @@ class ChatBox extends Component {
 	}
 
 	handleInput = (event) => {
-		console.log('handleInput event.target.value: ', event.target.value)
 		this.setState( {content : event.target.value} )
 	}
 
 	handleKeyPress = (event) => {
 		if(event.nativeEvent.keyCode === 13 && !event.nativeEvent.shiftKey) {
-			// only content is being sent - fix this
-			console.log('message to be sent to server: ', this.state)
-			socketAPI.sendMessage(this.state, (response) => {
-				console.log('response from server on sendMessage: ', response)
-				// warning: the call back is being triggered cumulatively
-				// it's not being triggered by the keypress
-					// must be the callback from sendMessage
-						// probably creating multiple event listeners
-
-				this.setState( { content: '' } )
-			})	
+			socketAPI.sendMessage(this.state)
+			this.setState( { content: '' } )	
 		}
-	}
-
-	componentDidMount() {
-		console.log('ChatBoxDidMount: ', this.state)
-		// component being cumulatively updated due to handleKeyPress
-	}
-
-	componentDidUpdate() {
-		console.log('ChatBoxDidUpdate: ', this.state)
-		// component being cumulatively updated due to handleKeyPress
 	}
 	
 	render() {
