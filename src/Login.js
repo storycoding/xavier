@@ -10,26 +10,12 @@ class Login extends Component {
 		}
 	}
 
-	updateUserInfo = this.props.updateUserInfo
 
-	goToContacts = () => { this.props.goToPage('Contacts') }
-
-	login = () => {
-
-		
-		//make api call to socket
-		socketAPI.connect(this.state, (response) => {
-
-			// if credentials are correct
-				this.updateUserInfo(response);
-				
-			// else
-				// detect whether email or password were wrong
-				// ask for credentials again
-				
-		})
-
-		
+	handleSubmit = (event) => {
+		event.preventDefault()
+		socketAPI.login( this.state )
+		this.props.updatePage('Contacts')
+		console.log('login triggered handleSubmit')
 	}
 
 	signUp = () => {
@@ -43,16 +29,16 @@ class Login extends Component {
 
 	componentDidMount() {
       console.log('LoginDidMount: ', this.state)
-  }
+  	}
 
 	componentDidUpdate() {
       console.log('LoginDidUpdate: ', this.state)
-  }
+  	}
 
 
 	render() {
 		return (
-			<form className='page login' onSubmit={this.login}>
+			<form className='page login' onSubmit={this.handleSubmit}>
 				<input
 					name='email'
 					type='text'
@@ -68,7 +54,7 @@ class Login extends Component {
 					value={this.state.password}
 					onChange={this.handleInput}/>
 
-				<div className='bubble' onClick={this.login}>login</div>
+				<div className='bubble' onClick={this.handleSubmit}>login</div>
 			</form>
 		)
 	}
