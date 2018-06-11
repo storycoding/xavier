@@ -7,7 +7,7 @@ import WritingContainer from './WritingContainer.js'
 
 
 const Chat = (props) => {
-
+	console.log("chat loaded with props:", props)
 	const users = {
 		publisher_id : props.publisher.id,
 		subscriber_id : props.subscriber.id
@@ -20,10 +20,15 @@ const Chat = (props) => {
 		return <div key={index} className={style}>{message.content}</div>
 	})
 
+	const handleClick = () => {
+		props.goToContacts();
+		props.clearHistory();
+	}
+
 	return (
 		<div className='page chat'>
 			<div className='chatContact'>
-				<div className='arrow' onClick={props.goToContacts}>
+				<div className='arrow' onClick={handleClick}>
 				←
 				</div>
 				{props.subscriber.name}
