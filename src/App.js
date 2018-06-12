@@ -27,8 +27,7 @@ class App extends Component {
       },
 
       contacts: [],
-      history: [],
-      input: ''
+      history: []
     }
   }
 
@@ -36,10 +35,8 @@ class App extends Component {
   updatePage = (page) => this.setState( { page : page } )
   updateSubscriber = (subscriber) => this.setState( { subscriber : subscriber } )
   clearHistory = (history) => this.setState( { history: [] } )
-
   updatePublisher = (publisher) => this.setState( { publisher : publisher } )
   updateHistory = (history) => this.setState( { history: history } )
-  updateInput = (input) => this.setState( { input: input } )
   updateContacts = (contacts) => this.setState( { contacts : contacts } )
   
 
@@ -47,11 +44,10 @@ class App extends Component {
       console.log('AppDidMount: ', this.state)
       
       socketAPI.registerForUpdates(
-        this.updatePublisher, 
-        this.updateSubscriber,
-        this.updateHistory,
-        this.updateInput,
-        this.updateContacts
+        this.updatePublisher.bind(this), 
+        this.updateSubscriber.bind(this),
+        this.updateHistory.bind(this),
+        this.updateContacts.bind(this)
       )
       // check for auth cookie
         // if cookie is valid
@@ -120,6 +116,7 @@ class App extends Component {
             goToContacts={this.updatePage.bind(this, 'Contacts')}
             history={this.state.history}
             updateHistory={this.updateHistory.bind(this)}
+            input={this.state.input}
           />
         )
 
