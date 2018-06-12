@@ -63,7 +63,7 @@ io.on('connection', (client) => {
 
 	client.on('get history', (users) => {
 		console.log('client get history users: ', users)
-		
+
 		// limit to the latest x messages
 		db.selectMessages(users.publisher_id, users.subscriber_id, (history) => {
 				console.log('data retrieved from get history: ', history)
@@ -87,15 +87,6 @@ io.on('connection', (client) => {
 
 	client.on('send input', (input) => {
 		console.log('send input content: ', input.content)
-
-		// add message to the database
-			// using message.publisher.id as the publisher_id
-
-		// choose:
-			// trigger history update for all users (slow)
-			// update only the the published message
-				// only trigger history update when chat loads
-
 		client.emit('broadcast input', input)
 	})
 
