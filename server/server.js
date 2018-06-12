@@ -23,7 +23,6 @@ io.on('connection', (client) => {
 		}
 
 		else {
-			
 			credentials.hash = 'hash'  // get real hash from bcrypt <--------------
 
 			db.selectAccount(credentials, (account) => {
@@ -44,16 +43,11 @@ io.on('connection', (client) => {
 				usedSockets ++
 
 				console.log(`${credentials.email} connected to the chat as: ${account[0].name}`)
-				
 
-				// get all data from DB and send it to the client
 				db.selectConnections( client.account_id, (contacts) => {
 					console.log('data retrieved from selectConnections: ', contacts)
 					client.emit('broadcast contacts', contacts)		
 				})
-
-
-
 			})
 		}
 	})
@@ -62,7 +56,6 @@ io.on('connection', (client) => {
 	client.on('get contacts', () => {
 		db.selectConnections( client.account_id, (contacts) => {
 			console.log('data retrieved from selectConnections: ', contacts)
-
 			client.emit('broadcast contacts', contacts)		
 		})
 	})
@@ -70,7 +63,8 @@ io.on('connection', (client) => {
 
 	client.on('get history', (users) => {
 		console.log('client get history users: ', users)
-		// limit to the latest 20 messages
+		
+		// limit to the latest x messages
 		db.selectMessages(users.publisher_id, users.subscriber_id, (history) => {
 				console.log('data retrieved from get history: ', history)
 				client.emit('broadcast history', history)
@@ -82,10 +76,7 @@ io.on('connection', (client) => {
 	client.on('send message', (message) => {
 		console.log(`message sent by ${client.name}: `, message)
 
-
 		db.insertMessage(message, () => {
-
-			// test
 			db.selectMessages(message.publisher_id, message.subscriber_id, (history) => {
 				console.log( 'message being broadcast by user: ', message)
 				client.emit('broadcast history', history)  // needs optimizing
@@ -108,15 +99,12 @@ io.on('connection', (client) => {
 		client.emit('broadcast input', input)
 	})
 
-	// todo: getWriting
-
 	// todo: rooms
 
 	client.on('disconnect', () => {
 		console.log(`${client.name} disconnected from the chat`)
     if (addedUser) { usedSockets -- }
   })
-
 })
 
 
