@@ -38,7 +38,7 @@ const Chat = (props) => {
 					<div className='history'>
 						{history}
 					</div>
-					<WritingContainer/>
+					<WritingContainer input={props.input}/>
 				</div>
 				<ChatBox
 					publisher_id={props.publisher.id}

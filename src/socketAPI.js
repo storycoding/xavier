@@ -3,12 +3,15 @@ const socket = openSocket('http://localhost:8000')
 
 const socketAPI = {
 	
-	registerForUpdates: function( Publisher, Subscriber, History, Input, Contacts) {
+	registerForUpdates: function( Publisher, Subscriber, History, Contacts) {
 		socket.on('login approved', (loginInfo) => Publisher(loginInfo) )
 		socket.on('login denied', (error) => console.log(error) )
 		socket.on('broadcast history', (history) => History(history) )
-		socket.on('broadcast input', (input) => Input(input) )
 		socket.on('broadcast contacts', (contacts) => Contacts(contacts) )
+	},
+
+	registerForInput: function (updateInput) {
+		socket.on('broadcast input', (input) => updateInput(input) )
 	},
 
 	login: function(credentials) {
@@ -36,4 +39,4 @@ const socketAPI = {
 	}
 }
 
-module.exports = { socketAPI : socketAPI } 
+module.exports = { socketAPI : socketAPI }

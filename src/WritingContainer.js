@@ -2,18 +2,31 @@ import React, { Component } from 'react';
 
 import Writing from './Writing';
 
+import { socketAPI } from './socketAPI.js'
+
+console.log(socketAPI)
+
 class WritingContainer extends Component {
-	constructor() {
-		super();
+	constructor(props) {
+		super(props)
 		this.state = {
-			content: ""
+			publisher_id: "",
+			subscriber_id: "",
+			content: "..."
 		}
 	}
+
+	updateInput = (input) => this.setState(input)
+
+	componentDidMount() {
+		socketAPI.registerForInput(this.updateInput.bind(this))
+	}
+	
 
 	render() {
 		return (
 			<div className="writingContainer">
-				<Writing/>
+				<Writing input={this.state}/>
 			</div>
 		);
 	}
