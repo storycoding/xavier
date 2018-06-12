@@ -8,7 +8,7 @@ const port = process.env.port || 8000
 let usedSockets = 0
 
 // for unit testing between server and client
-// const { fakeAuth, fakeHistory } = require('./fakeData.js')
+// const { auth, history } = require('../test/fakeData.js')
 
 io.on('connection', (client) => {
 	let addedUser = false
@@ -44,8 +44,7 @@ io.on('connection', (client) => {
 				usedSockets ++
 
 				console.log(`${credentials.email} connected to the chat as: ${account[0].name}`)
-
-
+				
 
 				// get all data from DB and send it to the client
 				db.selectConnections( client.account_id, (contacts) => {

@@ -1,47 +1,36 @@
-const io = require('socket.io-client');
-const IP = process.env.url || 'http://localhost:';
-const PORT = process.env.port || '8000';
-const URL = IP + PORT;
-const socket1 = io(URL, { forceNew: true });
-const socket2 = io(URL, { forceNew: true });
+const io = require('socket.io-client')
+const IP = process.env.url || 'http://localhost:'
+const PORT = process.env.port || '8000'
+const URL = IP + PORT
+const socket1 = io(URL, { forceNew: true })
+const socket2 = io(URL, { forceNew: true })
 
-const socketAPI1 = {
-	connect: function(credentials, done) {
-
-		socket1.emit('login', credentials);
-
-		socket1.on('login response', (response) => {
-			if (response === "success") { done() }
-			else { done(new Error(response)) }
-		});
+const testLogin1 = {
+	login: function(credentials, done) {
+		socket1.emit('login', credentials)
+		socket1.on( 'login approved', () => done('login successful') )
+		socket1.on( 'login denied', (error) => done(error) )
 	}
 }
 
-const socketAPI2 = {
-	connect: function(credentials, done) {
-
-		socket2.emit('login', credentials);
-
-		socket2.on('login response', (response) => {
-			if (response === "success") { done() }
-			else { done(new Error(response)) }
-		});
+const testLogin2 = {
+	login: function(credentials, done) {
+		socket2.emit('login', credentials)
+		socket2.on( 'login approved', () => done('login successful') )
+		socket2.on( 'login denied', (error) => done(error) )
 	}
 }
 
-//============================//
-//===== connection tests =====//
-//============================//
 
-const log = console.log;
+//======== quick tests =======//
 
-socketAPI1.connect({
-		username : "Rob",
-		password : "password"
-	}, log);
+testLogin1.login({
+		email : 'rob@hotmail.com',
+		password : 'password'
+	}, console.log)
 
 
-socketAPI2.connect({
-		username : "Laura",
-		password : "password"
-	}, log);
+testLogin2.login({
+		email : 'laura@hotmail.com',
+		password : 'password'
+	}, console.log)
