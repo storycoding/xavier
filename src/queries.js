@@ -65,6 +65,7 @@ const selectMessages = function(a, b, cb) {
 	.andWhere('subscriber_id', '=', b)
 	.orWhere('publisher_id', '=', b)
 	.andWhere('subscriber_id', '=', a)
+	.limit(20)
 	.orderBy('date_sent')
 	.then( (result)=> cb(result) )
 	.catch( (error)=> cb(error) )
