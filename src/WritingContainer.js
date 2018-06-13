@@ -10,13 +10,26 @@ class WritingContainer extends Component {
 	constructor(props) {
 		super(props)
 		this.state = {
-			publisher_id: "",
-			subscriber_id: "",
-			content: "..."
+			users: {
+				publisher_id: props.publisher_id,
+				subscriber_id: props.subscriber_id
+			},
+			input: {
+				publisher_id: "",
+				subscriber_id: "",
+				content: "..."
+			}
+			
 		}
 	}
 
-	updateInput = (input) => this.setState(input)
+	updateInput = (response) => {
+		console.log('a: ', response.input)
+		if(this.state.users.subscriber_id === response.input.publisher_id) {
+			console.log('buzz')
+			this.setState( { input : response.input } )
+		}
+	}
 
 	componentDidMount() {
 		socketAPI.registerForInput(this.updateInput.bind(this))
@@ -26,7 +39,7 @@ class WritingContainer extends Component {
 	render() {
 		return (
 			<div className="writingContainer">
-				<Writing input={this.state}/>
+				<Writing input={this.state.input}/>
 			</div>
 		)
 	}

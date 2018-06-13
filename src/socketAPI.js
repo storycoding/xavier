@@ -11,7 +11,7 @@ const socketAPI = {
 	},
 
 	registerForInput: function (updateInput) {
-		socket.on('broadcast input', (input) => updateInput(input) )
+		socket.on('broadcast input', (input) => updateInput( { input : input } ) )
 	},
 
 	login: function(credentials) {

@@ -38,7 +38,11 @@ const Chat = (props) => {
 					<div className='history'>
 						{history}
 					</div>
-					<WritingContainer input={props.input}/>
+					<WritingContainer
+						input={props.input}
+						publisher_id={props.publisher.id}
+						subscriber_id={props.subscriber.id}
+					/>
 				</div>
 				<ChatBox
 					publisher_id={props.publisher.id}
