@@ -87,7 +87,7 @@ io.on('connection', (client) => {
 
 	client.on('send input', (input) => {
 		console.log('send input content: ', input.content)
-		client.emit('broadcast input', input)
+		io.emit('broadcast input', input)
 	})
 
 	// todo: rooms
