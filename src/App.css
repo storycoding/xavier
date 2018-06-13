@@ -3,6 +3,10 @@
   src: local('caviar-dreams'), url(./fonts/CaviarDreams-webfont.woff) format('woff');
 }
 
+body: {
+  height: 100vh;
+}
+
 div, input {
   font-family: 'caviar-dreams', sans-serif;
 }
@@ -10,6 +14,7 @@ div, input {
 .App {
   width: 100%;
   height: 100%;
+  overflow: hidden;
   display: flex;
   flex-wrap: wrap;
 }
@@ -37,8 +42,8 @@ div, input {
 }
 
 .page {
-  min-width: 100vw;
-  min-height: 100vh;
+  width: 100vw;
+  height: 100vh;
   border-style: solid;
   border-width: 0px;
   display: flex;
@@ -146,7 +151,10 @@ div, input {
 }
 
 .scroll {
-  overflow-y: scroll;
+  overflow:auto;
+  scrollbar-base-color:gold;
+  font-family:sans-serif;
+  padding:10px;
 }
 
 input, button {
