@@ -20,7 +20,7 @@ const knex = require('knex')({
     client: 'pg',
     connection: {
         host: process.env.HOST || '127.0.0.1', 
-        user: process.env.USER || 'nunoneves',  <------------- replace 'nunoneves' with your own computer's username
+        user: process.env.USER || 'nunoneves',      //   replace 'nunoneves' with your own computer's username
         hash: process.env.hash || '', 
         database: process.env.DATABASE || 'xavier'
     }
