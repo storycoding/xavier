@@ -1,4 +1,4 @@
-import React from 'react';
+import React from 'react'
 
 const ChatBubble = (props) => {
 	if(props.author === "self" ) {
@@ -8,4 +8,4 @@ const ChatBubble = (props) => {
 	return <div className="other bubble">{props.content}</div>
 }
 
-export default ChatBubble;
+export default ChatBubble

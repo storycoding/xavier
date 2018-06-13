@@ -12,7 +12,6 @@ class ChatBox extends Component {
 
 	handleInput = (event) => {
 		this.setState( {content : event.target.value} )
-		socketAPI.sendInput(this.state)
 	}
 
 	handleKeyPress = (event) => {
@@ -20,6 +19,10 @@ class ChatBox extends Component {
 			socketAPI.sendMessage(this.state)
 			this.setState( { content: '' } )	
 		}
+	}
+
+	componentDidUpdate() {
+		socketAPI.sendInput(this.state)
 	}
 	
 	render() {

@@ -1,6 +1,6 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 
-import Writing from './Writing';
+import Writing from './Writing'
 
 import { socketAPI } from './socketAPI.js'
 
@@ -28,8 +28,8 @@ class WritingContainer extends Component {
 			<div className="writingContainer">
 				<Writing input={this.state}/>
 			</div>
-		);
+		)
 	}
 }
 
-export default WritingContainer;
+export default WritingContainer

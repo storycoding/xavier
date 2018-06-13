@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React from 'react'
 
 import { socketAPI } from './socketAPI.js'
 
@@ -21,8 +21,8 @@ const Chat = (props) => {
 	})
 
 	const handleClick = () => {
-		props.goToContacts();
-		props.clearHistory();
+		props.goToContacts()
+		props.clearHistory()
 	}
 
 	return (
