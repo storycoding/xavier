@@ -43,7 +43,7 @@ class Login extends Component {
 			<div className='page'>
 				<div className='logoContainer'>
 					<div className='logoTextWrapper'>
-						<div className='logoText'>Xavier</div>
+						<div className='logoText fadein'>Xavier</div>
 					</div>
 					<Logo/>
 				</div>
@@ -52,14 +52,14 @@ class Login extends Component {
 						name='email'
 						type='text'
 						placeholder='example you@gmail.com'
-						className='bubble'
+						className='bubble loginBubble'
 						value={this.state.email}
 						onChange={this.handleInput}/>
 					<input
 						name='password'
 						type='text'
 						placeholder='your password'
-						className='bubble'
+						className='bubble loginBubble'
 						value={this.state.password}
 						onChange={this.handleInput}/>
 
