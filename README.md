@@ -2,10 +2,13 @@
 
 Don't read words, read people
 
-## Install all the necessary devDependencies
+## Install all the necessary packages
 ```bash
 npm install
 ```
+
+## Database management system required
+[PostgreSQL](https://www.tutorialspoint.com/postgresql/postgresql_environment.htm)
 
 ## Initiate the database
 ```psql
