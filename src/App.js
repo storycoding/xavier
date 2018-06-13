@@ -131,7 +131,7 @@ class App extends Component {
 
 
     return (
-      <div className='App'>
+      <div className='App' scroll='no'>
         {this.renderPage(this.state.page)}
       </div>
     )
