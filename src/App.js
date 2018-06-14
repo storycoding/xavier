@@ -1,4 +1,8 @@
 import React, { Component } from 'react'
+
+import { Provider } from 'react-redux'
+import store from './redux/store.js'
+
 import './App.css'
 
 import Login from './Login.js'
@@ -131,9 +135,11 @@ class App extends Component {
 
 
     return (
-      <div className='App' scroll='no'>
-        {this.renderPage(this.state.page)}
-      </div>
+      <Provider store={store}>
+        <div className='App' scroll='no'>
+          {this.renderPage(this.state.page)}
+        </div>
+        </Provider>
     )
   }
 }
